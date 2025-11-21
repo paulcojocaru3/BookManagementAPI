@@ -64,11 +64,6 @@ public class CreateBookProfileValidator : AbstractValidator<CreateBookProfileReq
             .When(x => x.Category == BookCategory.Technical)
             .WithMessage("Technical books must be at least $20.00.");
 
-        RuleFor(x => x.Title)
-            .Must(ContainTechnicalKeywords)
-            .When(x => x.Category == BookCategory.Technical)
-            .WithMessage($"Technical book titles must contain keywords: {string.Join(", ", _technicalKeywords)}");
-        
         RuleFor(x => x.PublishedDate)
             .Must(date => date >= DateTime.UtcNow.AddYears(-5))
             .When(x => x.Category == BookCategory.Technical)
@@ -116,11 +111,6 @@ public class CreateBookProfileValidator : AbstractValidator<CreateBookProfileReq
     {
         if (string.IsNullOrEmpty(title)) return false;
         return !_restrictedChildrenWords.Any(w => title.Contains(w, StringComparison.OrdinalIgnoreCase));
-    }
-    private bool ContainTechnicalKeywords(string title)
-    {
-        if (string.IsNullOrEmpty(title)) return false;
-        return _technicalKeywords.Any(k => title.Contains(k, StringComparison.OrdinalIgnoreCase));
     }
     private async Task<bool> BeUniqueTitle(CreateBookProfileRequest model, string title, CancellationToken token)
     {

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using BookManagementAPI.Features;
 using Data;
 
-namespace Features.Books;
+namespace BookManagementAPI.Features;
 
 public record CreateBookCommand(CreateBookProfileRequest Dto) : IRequest<BookProfileDto>;
 
